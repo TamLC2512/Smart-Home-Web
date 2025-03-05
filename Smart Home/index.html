@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<head>
+    <title>IOT</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.9/firebase-database.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <script type="module" src="function.js"></script>
+    <script src="sensor.js"></script>
+   
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#show-living-room").show();
+        $(document).ready(function(){
+        document.getElementById("title-room").innerHTML = "Living Room";
+            $("#show-bed-room" ).hide("slow");
+            $("#show-home" ).hide("slow");
+        });
+
+        function showLivingRoom(){
+            document.getElementById("title-room").innerHTML = "Living Room";
+            $("#show-living-room").show();
+
+            $("#show-bed-room" ).hide("slow");
+            $("#show-home" ).hide("slow");
+        }
+
+        function showBedRoom(){
+            document.getElementById("title-room").innerHTML = "Bed Room";
+            $("#show-bed-room").show();
+
+            $("#show-living-room" ).hide("slow");
+            $("#show-home" ).hide("slow");
+        }
+
+        function showHome(){
+            document.getElementById("title-room").innerHTML = "Home";
+            $("#show-home").show();
+
+            $("#show-living-room" ).hide("slow");
+            $("#show-bed-room" ).hide("slow");
+        }
+    </script>
+</head>
+<body>
+    <!-- <div class="heading">
+        <head>
+            <img src="Image/Smart-homes.jpg" alt="img">
+        </head>
+    </div> -->
+    <div class="container">
+        <div style= "background-color: #f2ebeb; border-radius: 10px; margin: 10px;">
+            <div class="container-content">
+                <div id="show-living-room-div" class="living-room-content">
+                    <div class="title-room">
+                        <div class="menu-btn">
+                            <i class="fa fa-bars" aria-hidden="true"></i>
+                        </div>
+                        <div class="side-bar">
+                            <header>
+                                <div class="close-btn">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </div>
+                                <br>
+                                <h1>Menu</h1>
+                            </header>
+                            <div class="menu">
+                                <div class="item"><a href="#" onclick="showLivingRoom()"><i class="fa fa-television" aria-hidden="true"></i>&nbsp; Phòng khách</a></div>
+                                <div class="item"><a href="#" onclick="showBedRoom()"><i class="fa fa-bed" aria-hidden="true"></i>&nbsp; Phòng ngủ</a></div>
+                                <div class="item"><a href="#" onclick="showHome()"><i class="fa fa-home" aria-hidden="true"></i>&nbsp; Home</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+
+            <div class="header" style="display:inline-flex; text-align: center; padding-top: 0;">
+
+                <div class="title"><h1 id="title-room" style="font-family: cursive; font-size: 50px; margin: 50px 50px 0 0;">Room</h1></div>
+
+                <div class="lcd">
+                    <div class="tem" style="margin-right: 30px;">
+                        <img src="Image/Tem.png" alt="" style="height: 100px;"> <br>
+                        <p id="Temperature">35</p><p>&deg;C</p>
+                    </div>
+
+                    <div class="tem"style="margin-right: 30px;">
+                        <img src="Image/Hum.png" alt="" style="height: 100px;"> <br>
+                        <p id="Humidity">80</p> <p>&percnt;</p>
+                    </div>
+
+                    <div class="light-Intensity"style="margin-right: 30px;">
+                        <img src="Image/light_Intensity.png" id="Intensity_img" alt="" style="height: 100px;"> <br>
+                        <p id="Intensity">30</p> <p>&percnt;</p>
+                    </div>
+
+                    <div class="fire-Alarm">
+                        <img src="Image/fire.png" id="Fire_img" alt="" style="height: 100px;"> <br>
+                        <p id="Fire">OFF</p> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="living-room-content" id="show-living-room" >
+            <div class="equipment-container">
+                <div style="text-align: center;" class="checkModeSW">
+            
+                    <label class="switch">
+                        <input type="checkbox" id="1Checkmode">
+                        <span class=" slider round"></span>
+                    </label> 
+                    <div style="margin-right: 5px ; flex-basis: 220px; ">
+                        <p
+                            style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive; width: 190px;">
+                            AUTO MODE: <span style="color: red" id="LivingRoomCheck">None</span> </span></p>
+                    </div>
+                </div>
+                
+                <div class="equipment-container">
+                    <div class="equip-row" style="display: block;">
+                        <div class="equipment-box" style="margin: -20px;">
+                            <div style="text-align: center;" class="checkModeSW">
+                                <div style="margin-right: 5px ; flex-basis: 220px; display: flex;">
+                                    <p
+                                        style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive;">
+                                        BULB <span style="color: red" id="mode"></span>
+                                    </p>
+                                        <label class="switch">
+                                            <input type="checkbox" id="1Bulb">
+                                            <span class=" slider round"></span>
+                                        </label> 
+                                </div>
+                                <img id="1Bulb_img" class="image" src="Image/offBulb.png">
+                            </div>
+                        </div>
+                        <div class="equipment-box" style="margin: -20px;">
+                            <div style="text-align: center;" class="checkModeSW">
+                                <div style="margin-right: 5px ; flex-basis: 220px; display: flex;">
+                                    <p
+                                        style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive;">
+                                        FAN 1 <span style="color: red" id="mode"></span>
+                                    </p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="1Fan1">
+                                        <span class=" slider round"></span>
+                                    </label>
+                                </div>
+                                <img id="1Fan1_img" class="image" src="Image/offFan.png">
+                                 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equip-row" style="display: block;">
+                        <div class="equipment-box" style="margin: -20px;">
+                            <div style="text-align: center;" class="checkModeSW">
+                                <div style="margin-right: 5px ; flex-basis: 220px; display: flex;">
+                                    <p
+                                        style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive;">
+                                        FAN 2 <span style="color: red" id="mode"></span>
+                                    </p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="1Fan2">
+                                        <span class=" slider round"></span>
+                                    </label> 
+                                </div>
+                                <img id="1Fan2_img" class="image" src="Image/offFan.png">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bed-room-content" id="show-bed-room" >
+
+            <!-- <div class="title"><h1 style="font-family: cursive; font-size: 50px; margin-top: 50px;">Bed Room</h1></div> -->
+                
+            <div class="equipment-container">
+                <div style="text-align: center;" class="checkModeSW">
+            
+                    <label class="switch">
+                        <input type="checkbox" id="2Checkmode">
+                        <span class=" slider round"></span>
+                    </label> <div style="margin-right: 5px ; flex-basis: 220px; ">
+                        <p
+                            style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive; width: 190px;">
+                            AUTO MODE: <span style="color: red" id="BedRoomCheck">None</span> </span></p>
+                    </div>
+                </div>
+                
+                <div class="equipment-container">
+                    <div class="equip-row" style="display: block;">
+                        <div class="equipment-box" style="margin: -20px;">
+                            <div style="text-align: center;" class="checkModeSW">
+                                <div style="margin-right: 5px ; flex-basis: 220px; display: flex;">
+                                    <p
+                                        style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive;">
+                                        BULB 1<span style="color: red" id="mode"></span>
+                                    </p>
+                                        <label class="switch">
+                                            <input type="checkbox" id="2Bulb1">
+                                            <span class=" slider round"></span>
+                                        </label> 
+                                </div>
+                                <img id="2Bulb1_img" class="image" src = "Image/offBulb.png">
+                                
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="equip-row" style="display: block;">
+                        <div class="equipment-box" style="margin: -20px;">
+                            <div style="text-align: center;" class="checkModeSW">
+                                <div style="margin-right: 5px ; flex-basis: 220px; display: flex;">
+                                    <p
+                                        style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive;">
+                                        FAN 1 <span style="color: red" id="mode"></span>
+                                    </p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="2Fan1">
+                                        <span class=" slider round"></span>
+                                    </label> 
+                                </div>
+                                <img id="2Fan1_img" class="image" src="Image/offFan.png">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home-content" id="show-home" >
+        
+            <div class="equipment-container">
+                <div style="text-align: center;" class="checkModeSW">
+            
+                    <label class="switch">
+                        <input type="checkbox" id="3Checkmode">
+                        <span class=" slider round"></span>
+                    </label> 
+                    <div style="margin-right: 5px ; flex-basis: 220px; ">
+                        <p
+                            style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive; width: 190px;">
+                            AUTO MODE: <span style="color: red" id="HomeCheck">None</span> </span></p>
+                    </div>
+                </div>
+                
+                <div class="equipment-container">                    
+                   
+                     <!-- 5 window  -->
+                     <div class="equip-row" style="display: block;">
+                        <div class="equipment-box" style="margin: -20px;">
+                            <div style="text-align: center;" class="checkModeSW">
+                                <div style="margin-right: 5px ; flex-basis: 220px; display: flex;">
+                                    <p
+                                        style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive;">
+                                        WINDOW 1<span style="color: red" id="mode"></span>
+                                    </p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="3Window1">
+                                        <span class=" slider round"></span>
+                                    </label> 
+                                </div>
+                                <img id="3Window1_img" class="image" src="Image/offWindow.png">
+                                
+                            </div>
+                        </div>
+                        <div class="equipment-box" style="margin: -20px;">
+                            <div style="text-align: center;" class="checkModeSW">
+                                <div style="margin-right: 5px ; flex-basis: 220px; display: flex;">
+                                    <p
+                                        style="margin: auto; text-align: center; font-size: 20px; padding-top: 8px; font-family: cursive;">
+                                        WINDOW 2<span style="color: red" id="mode"></span>
+                                    </p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="3Window2">
+                                        <span class=" slider round"></span>
+                                    </label> 
+                                </div>
+                                <img id="3Window2_img" class="image" src="Image/offWindow.png">
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+   <!-- <div class="container inf" style="justify-content: center; background-color: #5ceb8e; border-radius: 10px; padding: 5px;" >
+        <img src="Image/Logo_Dai_hoc_Can_Tho.svg.png" alt="img" style="height: 150px;">
+
+        <div style="text-align: left; margin-left: 20px; font-family: 'Times New Roman'; color: rgb(5, 11, 91);">
+            <p>Tran Quoc Sac</p>
+        </div>
+        
+    </div> -->
+    <script>
+        $(document).ready(function(){
+     //jquery for toggle sub menus
+     $('.sub-btn').click(function(){
+       $(this).next('.sub-menu').slideToggle();
+       $(this).find('.dropdown').toggleClass('rotate');
+     });
+     //jquery for expand and collapse the sidebar
+     $('.menu-btn').click(function(){
+       $('.side-bar').addClass('active');
+       $('.menu-btn').css("visibility", "hidde");
+     });
+     //Active cancel button
+     $('.close-btn').click(function(){
+       $('.side-bar').removeClass('active');
+       $('.menu-btn').css("visibility", "visible");
+     });
+   });
+   
+    </script>
+</body>
